@@ -8,9 +8,7 @@ var App = React.createClass({
   getInitialState: function(){
       return { //state object
         todos: [
-          { title: 'placeholder todo 1', complete: false, },
-          { title: 'placeholder todo 2', complete: false, },
-          { title: 'placeholder todo 3', complete: false, }
+
 
           //props
         ]
@@ -49,13 +47,42 @@ var App = React.createClass({
 
   //value, index means render each <li> (todo)
 
-  render(){
+  addTodo: function(event){
+
+    event.preventDefault();
+
+    if(this.refs.addTodo.value){
+        this.state.todos.push({title: this.refs.addTodo.value, complete:false });
+        this.setState({ todos: this.state.todos});
+        this.refs.addTodo.value = '';
+    }
+  },
+  //setState (new state) ({new object: old state it is replacing})
+  //only inputs get .val/value
+
+  render: function(){
+
+    var number = this.state.todos.length;
     return (
       <div className="todo-list">
           <h1>Todo List!</h1>
+          <div className="add-todo">
+            <form name="addTodoForm" onSubmit={this.addTodo}>
+            <input type="text" ref="addTodo" /><span>(hit enter to add)</span>
+            </form>
+          </div>
           <ul>
-            { this.state.todos.map(this.renderTodos)}
+            { this.state.todos.map(this.renderTodos) }
           </ul>
+          <div className="todo-admin">
+            <div>
+              { number } { number > 1 || number === 0 ? "todos" : "todo" }
+            </div>
+            <div>
+            
+            </div>
+
+          </div>
       </div>
     )
   }
